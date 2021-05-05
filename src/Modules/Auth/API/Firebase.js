@@ -1,4 +1,5 @@
 import createFBAuth from "@react-native-firebase/auth";
+import database from '@react-native-firebase/database';
 
 const auth = createFBAuth();
 
