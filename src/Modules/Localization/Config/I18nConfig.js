@@ -1,7 +1,6 @@
 import I18n from 'i18n-js';
 
-import english from './Translations/English';
-import turkish from './Translations/Turkish';
+import {english, turkish} from './Texts';
 
 import { Locales } from '../LocalizationConstants';
 

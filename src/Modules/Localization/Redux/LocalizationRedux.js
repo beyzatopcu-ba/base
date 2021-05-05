@@ -1,49 +1,34 @@
+import { Locales } from "../LocalizationConstants";
 
-/* ------------- Initial State ------------- */
+export const LOCALIZATION_NAMESPACE = 'localization';
 
-export const INITIAL_STATE = {
-    locale: 'tr',
+const INITIAL_STATE = {
+    locale: Locales.turkish,
 };
 
-/* ------------- Types and Action Creators ------------- */
+const LocalizationTypes = {
+    CHANGE_LOCALE: 'localization/change_locale',
+}
 
-const Types = {
-    CHANGE_LOCALE: 'locale/change_locale',
-};
-
-const Actions = {
-    changeLocale: ({ locale }) => ({
-        type: Types.CHANGE_LOCALE,
-        payload: { locale },
-    }),
-};
-
-export const LocalizationTypes = Types;
-export const LocalizationActions = Actions;
-
-/* ------------- Selectors ------------- */
+export const LocalizationActionCreators = {
+    changeLocale: (locale) => ({
+        type: LocalizationTypes.CHANGE_LOCALE,
+        payload: { locale }
+    })
+}
 
 export const LocalizationSelectors = {
-    locale: state => state.localization.locale,
-  };
-
-/* ------------- Reducers ------------- */
-
-export const changeLocale = (state, action) => {
-    let { locale } = action.payload;
-    return {
-        ...state,
-        locale,
-    };
-};
-
-/* ------------- Hookup Reducers To Types ------------- */
+    locale: globalState => globalState[LOCALIZATION_NAMESPACE].locale,
+}
 
 export const LocalizationReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case Types.CHANGE_LOCALE:
-            return changeLocale(state, action);
+        case LocalizationTypes.CHANGE_LOCALE:
+            let { locale } = action.payload;
+            return {
+                locale,
+            }
         default:
             return state;
     }
-};
+}

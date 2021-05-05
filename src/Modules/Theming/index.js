@@ -1,10 +1,9 @@
+export { ThemeReducer, THEMING_NAMESPACE } from './Redux/ThemingRedux';
+export { cn } from './Colors';
 export { 
-    useTheme,
+    useTheme, 
     useThemedColors, 
     useThemedStyles, 
-    useThemedOption, 
-    useDispatchChangeTheme,
- } from './CustomHooks/ThemingHooks';
-export { ThemeReducer } from './Redux/ThemingRedux';
-export { colorNames } from './Colors';
-export { ThemeModes } from './ThemingConstants';
+    useThemedValues,
+} from './CustomHooks/ThemingHooks';
+export { ThemeModes, getThemeOptions } from './ThemingConstants';

@@ -1,50 +1,34 @@
-import { ThemeModes } from '../ThemingConstants';
+import { ThemeModes } from "../ThemingConstants";
 
-/* ------------- Initial State ------------- */
+export const THEMING_NAMESPACE = 'theming';
 
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
     themeMode: ThemeModes.light,
 };
 
-/* ------------- Types and Action Creators ------------- */
-
-const Types = {
+const ThemingTypes = {
     CHANGE_THEME: 'theme/change_theme',
-};
+}
 
-const Actions = {
-    changeTheme: ({ themeMode }) => ({
-        type: Types.CHANGE_THEME,
-        payload: { themeMode },
-    }),
-};
+export const ThemingActionCreators = {
+    changeTheme: (themeMode) => ({
+        type: ThemingTypes.CHANGE_THEME,
+        payload: { themeMode }
+    })
+}
 
-export const ThemeTypes = Types;
-export const ThemeActions = Actions;
-
-/* ------------- Selectors ------------- */
-
-export const ThemeSelectors = {
-    themeMode: state => state.theme.themeMode,
-  };
-
-/* ------------- Reducers ------------- */
-
-export const changeTheme = (state, action) => {
-    let { themeMode } = action.payload;
-    return {
-        ...state,
-        themeMode,
-    };
-};
-
-/* ------------- Hookup Reducers To Types ------------- */
+export const ThemingSelectors = {
+    themeMode: globalState => globalState[THEMING_NAMESPACE].themeMode,
+}
 
 export const ThemeReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case Types.CHANGE_THEME:
-            return changeTheme(state, action);
+        case ThemingTypes.CHANGE_THEME:
+            let { themeMode } = action.payload;
+            return {
+                themeMode,
+            }
         default:
             return state;
     }
-};
+}

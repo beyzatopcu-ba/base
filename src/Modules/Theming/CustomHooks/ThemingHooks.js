@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThemeActions, ThemeSelectors } from '../Redux/ThemingRedux';
+import { ThemingActionCreators, ThemingSelectors } from '../Redux/ThemingRedux';
 import { ThemeModes } from '../ThemingConstants';
 import { lightColors, darkColors } from '../Colors';
 
 export function useTheme() {
-    return useSelector(ThemeSelectors.themeMode);
+    return useSelector(ThemingSelectors.themeMode);
 }
 
 export function useThemedColors() {
@@ -30,6 +30,16 @@ export function useThemedStyles(getStyles, otherParams) {
     return themedStyles;
 }
 
+export function useThemedValues(getStyles, params) {
+    const themedColors = useThemedColors();
+    const themedStyles = useThemedStyles(getStyles, params);
+
+    return {
+        colors: themedColors,
+        styles: themedStyles,
+    }
+}
+
 export function useThemedOption(...options) {
     const themeMode = useTheme();
     switch (themeMode) {
@@ -42,5 +52,5 @@ export function useThemedOption(...options) {
 
 export function useDispatchChangeTheme() {
     const dispatch = useDispatch();
-    return key => dispatch(ThemeActions.changeTheme({themeMode: key}));
+    return key => dispatch(ThemingActionCreators.changeTheme({themeMode: key}));
 }

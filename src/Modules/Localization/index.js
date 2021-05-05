@@ -1,4 +1,3 @@
-export { useLocalization, useLocale, useDispatchChangeLocale, useLocaleDateFormat } from './CustomHooks/LocalizationHooks';
-export { Texts } from './Config/TextNames';
-export { LocalizationReducer } from './Redux/LocalizationRedux';
-export { Locales } from './LocalizationConstants';
+export { LocalizationReducer, LOCALIZATION_NAMESPACE } from './Redux/LocalizationRedux';
+export { tn } from './Config/Texts';
+export { useLocale, useLocalization, useDispatchChangeLocale } from './CustomHooks/LocalizationHooks';
