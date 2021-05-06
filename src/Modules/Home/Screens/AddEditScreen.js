@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { addItem, getItemDetail } from '../API/Firebase';
+import { addItem, getItemDetail, updateItem } from '../API/Firebase';
 
 import styles from '../Styles/AddEditScreenStyles';
 
@@ -35,17 +35,24 @@ const AddEditScreen = props => {
 
     const _onPress_AddSave = () => {
         const item = {
+            key: itemKey,
             title: itemName,
             count: itemCount,
             detail: itemDetail,
-            isBought: false,
+            isBought: itemIsBought,
         };
 
         const onComplete = () => {
             props.navigation.goBack();
         }
 
-        addItem(item, onComplete);
+        if (itemKey) {
+            console.log('updating')
+            updateItem(item, onComplete);
+        }
+        else {
+            addItem(item, onComplete);
+        }
     }
 
     return (

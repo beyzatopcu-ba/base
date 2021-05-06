@@ -62,3 +62,27 @@ export const addItem = async (item, onComplete) => {
 
     }
 }
+
+export const updateItem = async (item, onComplete) => {
+    try {
+        await database()
+            .ref(`/itemList/${item.key}`)
+            .update(item);
+
+        /// **** Aşağıdaki alanı uygulamanıza göre değiştirin **** ///
+        const itemThumbnail = {
+            title: item.title,
+            isBought: item.isBought,
+        }
+        /// **** Yukarıdaki alanı uygulamanıza göre değiştirin **** ///
+        
+        const userId = getCurrentUser().uid;
+        await database()
+            .ref(`/itemThumbnailList/${userId}/${item.key}`)
+            .update(itemThumbnail);
+
+        onComplete();
+    } catch (error) {
+        console.log(error);
+    }
+}
