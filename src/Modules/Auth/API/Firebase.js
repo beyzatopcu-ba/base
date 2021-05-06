@@ -4,7 +4,6 @@ import database from '@react-native-firebase/database';
 const auth = createFBAuth();
 
 export const signUp = async (email, password) => {
-    console.log('in signUp function')
     return await auth.createUserWithEmailAndPassword(email, password);
 };
 

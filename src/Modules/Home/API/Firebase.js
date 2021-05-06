@@ -4,7 +4,6 @@ import { convertRawData } from './Converter';
 
 export const subscribeToItemData = (onDataRetrieved) => {
     const userId = getCurrentUser().uid;
-    console.log('userId', userId)
     database()
         .ref('/itemThumbnailList/' + userId)
         .on('value', snapshot => {

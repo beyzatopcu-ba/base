@@ -57,7 +57,6 @@ const AddEditScreen = props => {
         }
     }
 
-    console.log(itemName)
 
     return (
         <SafeAreaView style={styles.safeArea}>
