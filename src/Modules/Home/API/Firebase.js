@@ -86,3 +86,14 @@ export const updateItem = async (item, onComplete) => {
         console.log(error);
     }
 }
+
+export const deleteItem = itemKey => {
+    const userId = getCurrentUser().uid;
+    database()
+        .ref(`/itemThumbnailList/${userId}/${itemKey}`)
+        .remove();
+
+    database()
+        .ref(`/itemList/${itemKey}`)
+        .remove();
+}

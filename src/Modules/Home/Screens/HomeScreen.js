@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-import { subscribeToItemData } from '../API/Firebase';
+import { deleteItem, subscribeToItemData } from '../API/Firebase';
 
 import styles from '../Styles/HomeScreenStyles';
 
@@ -20,6 +20,7 @@ const dummy = [
 const HomeScreen = props => {
 
     const [ itemList, setItemList ] = useState(null);
+    const [ isDeleteModeOn, setIsDeleteModeOn ] = useState(false);
 
     // Anasayfa açıldığında item listesindeki değişikliklere üye olsun
     // Değişiklik olduğunda, yeni item listesini state'e atsın
@@ -35,20 +36,30 @@ const HomeScreen = props => {
         }
     }, []);
 
-    const _onPress_Add = () => {
-        props.navigation.navigate('add-edit-screen');
+    const _onPress_AddDelete = () => {
+        if (isDeleteModeOn) {
+            setIsDeleteModeOn(false);
+        }
+        else {
+            props.navigation.navigate('add-edit-screen');
+        }
     }
 
-    const _onPress_Edit = item => {
-        // AddEditScreen'e item'in id'sini gönderiyoruz
-        props.navigation.navigate('add-edit-screen', {
-            itemKey: item.key
-        })
+    const _onLongPress_AddDelete = () => {
+        setIsDeleteModeOn(true);
     }
 
-    // İtem silinsin
-    const _onLongPress_Item = itemId => {
-
+    const _onPress_EditDelete = item => {
+        if (isDeleteModeOn) {
+            // item'i sil
+            deleteItem(item.key);
+        }
+        else {
+            // AddEditScreen'e item'in id'sini gönderiyoruz
+            props.navigation.navigate('add-edit-screen', {
+                itemKey: item.key
+            })
+        }
     }
 
     const _renderItem = ({item}) => {
@@ -56,8 +67,7 @@ const HomeScreen = props => {
         return (
             <TouchableOpacity 
                 style={styles.itemTouchable} 
-                onPress={() => _onPress_Edit(item)}
-                onLongPress={() => _onLongPress_Item(item)}>
+                onPress={() => _onPress_EditDelete(item)}>
                 <Text style={styles.itemText}>{item.title}</Text>
             </TouchableOpacity>
         )
@@ -78,8 +88,13 @@ const HomeScreen = props => {
                     keyExtractor={item => item.key}
                 />
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.touchable} onPress={_onPress_Add}>
-                        <Text style={styles.text}>Yeni</Text>
+                    <TouchableOpacity 
+                        style={styles.touchable} 
+                        onPress={_onPress_AddDelete}
+                        onLongPress={_onLongPress_AddDelete}>
+                        <Text style={styles.text}>{
+                            isDeleteModeOn ? 'ÇIK' : 'YENİ'
+                        }</Text>
                     </TouchableOpacity>
                 </View>
             </View>
