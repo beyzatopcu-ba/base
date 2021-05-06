@@ -25,7 +25,7 @@ const HomeScreen = props => {
     const _onPress_Edit = itemId => {
         // AddEditScreen'e item'in id'sini gönderiyoruz
         props.navigation.navigate('add-edit-screen', {
-            itemId
+            itemKey: itemId
         })
     }
 

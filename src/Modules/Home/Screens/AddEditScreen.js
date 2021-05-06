@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { addItem } from '../API/Firebase';
 
 import styles from '../Styles/AddEditScreenStyles';
 
@@ -8,21 +9,37 @@ const AddEditScreen = props => {
     const [ itemName, setItemName ] = useState('');
     const [ itemCount, setItemCount ] = useState('');
     const [ itemDetail, setItemDetail ] = useState('');
+    const [ itemIsBought, setItemIsBought ] = useState(false);
 
     // Edit ekranı için gelen item'in id'si (eğer bir şey gönderilmemişse params: undefined oluyor)
-    const itemId = props.route.params?.itemId;
+    const itemKey = props.route.params?.itemKey;
 
     // Ekran ilk açıldığında title'ı belirlensin
     useEffect(() => {
         props.navigation.setOptions({
-            title: itemId ? 'DÜZENLE' : 'YENİ EKLE'
+            title: itemKey ? 'DÜZENLE' : 'YENİ EKLE'
         })
     }, []);
 
-    // Ekrana gelen bir itemId varsa, item'in detayları çekilsim
+    // Ekrana gelen bir itemKey varsa, item'in detayları çekilsim
     useEffect(() => {
         
     }, []);
+
+    const _onPress_AddSave = () => {
+        const item = {
+            title: itemName,
+            count: itemCount,
+            detail: itemDetail,
+            isBought: false,
+        };
+
+        const onComplete = () => {
+            props.navigation.goBack();
+        }
+
+        addItem(item, onComplete);
+    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -56,9 +73,9 @@ const AddEditScreen = props => {
                             placeholderTextColor="rgba(0,0,0,0.3)"/>
                     </View>
                 </ScrollView>
-                <TouchableOpacity style={styles.touchable}>
+                <TouchableOpacity style={styles.touchable} onPress={_onPress_AddSave}>
                     <Text style={styles.buttonText}>
-                        {itemId ? 'KAYDET' : 'EKLE'}
+                        {itemKey ? 'KAYDET' : 'EKLE'}
                     </Text>
                 </TouchableOpacity>
             </View>
