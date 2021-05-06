@@ -20,6 +20,15 @@ export const subscribeToItemData = (onDataRetrieved) => {
     }
 }
 
+export const getItemDetail = (itemKey, onRetrieved) => {
+    database()
+        .ref(`/itemList/${itemKey}`)
+        .once('value')
+        .then(snapshot => {
+            onRetrieved(snapshot.val())
+        })
+}
+
 export const addItem = async (item, onComplete) => {
     try {
         // Sade objeyi oluşturalım (Anasayfada görünen alanlar)

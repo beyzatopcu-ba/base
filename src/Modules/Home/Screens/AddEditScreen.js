@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { addItem } from '../API/Firebase';
+import { addItem, getItemDetail } from '../API/Firebase';
 
 import styles from '../Styles/AddEditScreenStyles';
 
@@ -21,9 +21,16 @@ const AddEditScreen = props => {
         })
     }, []);
 
-    // Ekrana gelen bir itemKey varsa, item'in detayları çekilsim
+    // Ekrana gelen bir itemKey varsa, item'in detayları çekilsin
     useEffect(() => {
-        
+        if (itemKey) {
+            getItemDetail(itemKey, item => {
+                setItemName(item.title);
+                setItemCount(item.count);
+                setItemDetail(item.detail);
+                setItemIsBought(item.isBought);
+            });
+        }
     }, []);
 
     const _onPress_AddSave = () => {
