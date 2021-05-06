@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { subscribeToItemData } from '../API/Firebase';
 
 import styles from '../Styles/HomeScreenStyles';
 
@@ -18,14 +19,30 @@ const dummy = [
 
 const HomeScreen = props => {
 
+    const [ itemList, setItemList ] = useState(null);
+
+    // Anasayfa açıldığında item listesindeki değişikliklere üye olsun
+    // Değişiklik olduğunda, yeni item listesini state'e atsın
+    useEffect(() => {
+        // subscribe
+        const off = subscribeToItemData(data => {
+            setItemList(data);
+        });
+
+        // unsubscribe
+        return () => {
+            off();
+        }
+    }, []);
+
     const _onPress_Add = () => {
         props.navigation.navigate('add-edit-screen');
     }
 
-    const _onPress_Edit = itemId => {
+    const _onPress_Edit = item => {
         // AddEditScreen'e item'in id'sini gönderiyoruz
         props.navigation.navigate('add-edit-screen', {
-            itemKey: itemId
+            itemKey: item.key
         })
     }
 
@@ -39,8 +56,8 @@ const HomeScreen = props => {
         return (
             <TouchableOpacity 
                 style={styles.itemTouchable} 
-                onPress={() => _onPress_Edit(item.id)}
-                onLongPress={() => _onLongPress_Item(item.id)}>
+                onPress={() => _onPress_Edit(item)}
+                onLongPress={() => _onLongPress_Item(item)}>
                 <Text style={styles.itemText}>{item.title}</Text>
             </TouchableOpacity>
         )
@@ -55,9 +72,10 @@ const HomeScreen = props => {
             <View style={styles.container}>
                 <FlatList 
                     style={styles.flatList}
-                    data={dummy}
+                    data={itemList}
                     renderItem={_renderItem}
                     ItemSeparatorComponent={_ItemSeparator}
+                    keyExtractor={item => item.key}
                 />
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.touchable} onPress={_onPress_Add}>

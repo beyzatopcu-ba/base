@@ -1,14 +1,34 @@
 import database from '@react-native-firebase/database';
 import { getCurrentUser } from '../../Auth';
+import { convertRawData } from './Converter';
+
+export const subscribeToItemData = (onDataRetrieved) => {
+    const userId = getCurrentUser().uid;
+
+    database()
+        .ref(`/itemThumbnailList/${userId}`)
+        .on('value', snapshot => {
+            const rawData = snapshot.val();
+            const convertedList = convertRawData(rawData);
+            onDataRetrieved(convertedList);
+        });
+
+    return () => {
+        database()
+            .ref(`/itemThumbnailList/${userId}`)
+            .off('value');
+    }
+}
 
 export const addItem = async (item, onComplete) => {
     try {
         // Sade objeyi oluşturalım (Anasayfada görünen alanlar)
-        // Bu alanı uygulamanıza göre değiştirin
+        /// **** Aşağıdaki alanı uygulamanıza göre değiştirin **** ///
         const itemThumbnail = {
             title: item.title,
             isBought: false,
         };
+        /// **** Yukarıdaki alanı uygulamanıza göre değiştirin **** ///
 
         // Şu anki user'ın id'sini alalım
         const userId = getCurrentUser().uid;
