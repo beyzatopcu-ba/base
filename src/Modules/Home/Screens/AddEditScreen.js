@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { addItem, getItemDetail, updateItem } from '../API/Firebase';
+import LinkingExample from '../Components/LinkingExample';
 
 import styles from '../Styles/AddEditScreenStyles';
 
@@ -87,6 +88,7 @@ const AddEditScreen = props => {
                             placeholderTextColor="rgba(0,0,0,0.3)"/>
                     </View>
                 </ScrollView>
+                <LinkingExample />
                 <TouchableOpacity style={styles.touchable} onPress={_onPress_AddSave}>
                     <Text style={styles.buttonText}>
                         {itemKey ? 'KAYDET' : 'EKLE'}
