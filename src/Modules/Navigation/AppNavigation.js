@@ -3,8 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../Home';
 import AddEditScreen from '../Home/Screens/AddEditScreen';
 import { Text, TouchableOpacity } from 'react-native';
-import AsyncScreen from '../Home/AsyncStorage/AsyncScreen';
 import { useNavigation } from '@react-navigation/core';
+import DeviceInfoScreen from '../Home/DeviceInfo/DeviceInfoScreen';
 
 
 const AppStack = createStackNavigator();
@@ -27,8 +27,8 @@ const AppNavigation = () => {
                     headerRight: () => {
                         const navigation = useNavigation();
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate("async-screen")}>
-                                <Text>Async</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("device-info-screen")}>
+                                <Text>Device Info</Text>
                             </TouchableOpacity>
                         )
                     }
@@ -46,10 +46,10 @@ const AppNavigation = () => {
                 }}
             />
             <AppStack.Screen
-                name="async-screen"
-                component={AsyncScreen}
+                name="device-info-screen"
+                component={DeviceInfoScreen}
                 options={{
-                    title: 'ASYNC',
+                    title: 'DEVICE INFO',
                     headerTitleAlign: 'center',
                     headerStyle: {
                         backgroundColor: '#30D086'
