@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LOCALIZATION_NAMESPACE } from '../Modules/Localization';
 import { THEMING_NAMESPACE } from '../Modules/Theming';
 import { USER_NAMESPACE } from '../Modules/Auth';
